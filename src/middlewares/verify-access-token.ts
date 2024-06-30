@@ -8,8 +8,6 @@ export const verifyAccessToken = (
 ) => {
   const token = req.cookies.token || req.headers["x-access-token"];
 
-  console.log(token);
-
   if (!token) {
     return res.status(403).json({ message: "Token is required" });
   }
@@ -18,6 +16,7 @@ export const verifyAccessToken = (
     if (err) {
       return res.status(403).json({ message: "Invalid token" });
     }
+
     req.user = user;
     next();
   });

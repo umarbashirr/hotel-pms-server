@@ -6,16 +6,25 @@ const categorySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    description: {
+    code: {
       type: String,
+      required: true,
+    },
+    basePrice: {
+      type: Number,
+      required: true,
+    },
+    checkinTime: {
+      type: String,
+      required: true,
+    },
+    checkoutTime: {
+      type: String,
+      required: true,
     },
     hotel: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Hotel",
-      required: true,
-    },
-    price: {
-      type: Number,
       required: true,
     },
   },
@@ -24,7 +33,6 @@ const categorySchema = new mongoose.Schema(
   }
 );
 
-const Category =
-  mongoose.models.Category || mongoose.model("Category", categorySchema);
+const Category = mongoose.model("Category", categorySchema);
 
 export default Category;

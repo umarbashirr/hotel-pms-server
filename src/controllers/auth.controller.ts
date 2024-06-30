@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import User from "../models/user.model";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import UserHotel from "../models/userHotel.model";
 
 export const loginHandler = async (req: Request, res: Response) => {
   try {
@@ -27,10 +28,22 @@ export const loginHandler = async (req: Request, res: Response) => {
       });
     }
 
+    const userHotel = await UserHotel.find({
+      user: user._id,
+    }).populate("hotel");
+
+    if (!userHotel) {
+      return res.status(401).json({
+        message: "User is not associated with any hotel",
+        success: false,
+      });
+    }
+
     const payload = {
       id: user._id,
       name: user.name,
       email: user.email,
+      hotels: userHotel,
     };
 
     const token = await jwt.sign(payload, process.env.JWT_ACCESS_SECRET!, {

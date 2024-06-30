@@ -1,1 +1,1 @@
-export const DB_NAME = "hotel-management-system";
+export const DB_NAME = "pms";

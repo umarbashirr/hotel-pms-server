@@ -1,13 +1,23 @@
 import mongoose from "mongoose";
 
-const roomSchema = new mongoose.Schema(
+interface IRoom extends mongoose.Document {
+  name: string;
+  code: string;
+  hotel: mongoose.Schema.Types.ObjectId;
+  category: mongoose.Schema.Types.ObjectId;
+}
+
+type RoomModel = mongoose.Model<IRoom>;
+
+const roomSchema = new mongoose.Schema<IRoom, RoomModel>(
   {
     name: {
       type: String,
       required: true,
     },
-    description: {
+    code: {
       type: String,
+      required: true,
     },
     hotel: {
       type: mongoose.Schema.Types.ObjectId,
@@ -25,6 +35,7 @@ const roomSchema = new mongoose.Schema(
   }
 );
 
-const Room = mongoose.models.Room || mongoose.model("Room", roomSchema);
+const Room =
+  mongoose.models.Room || mongoose.model<IRoom, RoomModel>("Room", roomSchema);
 
 export default Room;

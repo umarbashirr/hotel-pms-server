@@ -3,7 +3,6 @@ import { addressSchema, gstSchema } from "./schema.model";
 
 interface IHotel extends mongoose.Document {
   name: string;
-  description: string;
   email: string;
   phone: string;
   address: {
@@ -78,9 +77,6 @@ const hotelSchema = new mongoose.Schema<IHotel>(
       type: String,
       required: true,
     },
-    description: {
-      type: String,
-    },
     email: {
       type: String,
     },
@@ -96,11 +92,12 @@ const hotelSchema = new mongoose.Schema<IHotel>(
     },
     ownerDetails: ownerSchema,
     gstDetails: gstSchema,
-    users: [userAccessSchema],
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
+    users: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "UserHotel",
+      },
+    ],
   },
   {
     timestamps: true,
