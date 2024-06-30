@@ -1,3 +1,4 @@
+import { Moment } from "moment";
 import mongoose from "mongoose";
 
 interface IBookingLicense extends mongoose.Document {
@@ -10,8 +11,8 @@ interface IBookingLicense extends mongoose.Document {
     count: number;
   };
   dateRange: {
-    checkIn: Date;
-    checkOut: Date;
+    checkIn: any;
+    checkOut: any;
   };
   amount: {
     basePrice: number;
@@ -72,8 +73,8 @@ const bookingLicenseSchema = new mongoose.Schema<
       count: { type: Number, required: true, default: 1 },
     },
     dateRange: {
-      checkIn: { type: Date, required: true },
-      checkOut: { type: Date, required: true },
+      checkIn: { type: String, required: true },
+      checkOut: { type: String, required: true },
     },
     amount: {
       basePrice: { type: Number },
@@ -84,7 +85,6 @@ const bookingLicenseSchema = new mongoose.Schema<
     fullfillment: {
       status: {
         type: String,
-        required: true,
         enum: [
           "FULLFILLMENT_PENDING",
           "FULLFILLMENT_STARTED",

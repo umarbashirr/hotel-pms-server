@@ -14,8 +14,8 @@ const corsOptions = {
 
 // Create logger for every request
 
-app.use((req, res, next) => {
-  console.log("Logging request", req.method, req.path);
+app.use((req, _res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
   next();
 });
 
@@ -35,6 +35,8 @@ import roomRoutes from "./routes/room.routes";
 import occupancyRoutes from "./routes/occupancy.routes";
 import profileRoutes from "./routes/profile.routes";
 import companyProfileRoutes from "./routes/company-profile.routes";
+import bookingRoutes from "./routes/booking.routes";
+import licenseRoutes from "./routes/licenses.routes";
 
 //routes declaration
 app.use("/api/v1", healthCheckRoutes);
@@ -45,6 +47,8 @@ app.use("/api/v1/rooms", roomRoutes);
 app.use("/api/v1/occupancy", occupancyRoutes);
 app.use("/api/v1/individual-profiles", profileRoutes);
 app.use("/api/v1/company-profiles", companyProfileRoutes);
+app.use("/api/v1/booking", bookingRoutes);
+app.use("/api/v1/licenses", licenseRoutes);
 
 // http://localhost:8000/api/v1/users/register
 

@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 interface IBooking extends mongoose.Document {
   hotel: mongoose.Schema.Types.ObjectId;
+  primaryGuest: mongoose.Schema.Types.ObjectId;
   masterGuestList: [
     {
       guest: mongoose.Schema.Types.ObjectId;
@@ -41,6 +42,10 @@ const bookingSchema = new mongoose.Schema<IBooking, BookingModel>(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Hotel",
     },
+    primaryGuest: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "IndividualProfile",
+    },
     masterGuestList: [
       {
         guest: {
@@ -52,6 +57,7 @@ const bookingSchema = new mongoose.Schema<IBooking, BookingModel>(
     ],
     payType: {
       type: String,
+      enum: ["CASH", "CARD", "UPI", "NETBANKING", "WALLET"],
       required: true,
     },
     paymentDetails: [
