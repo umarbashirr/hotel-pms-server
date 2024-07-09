@@ -67,7 +67,7 @@ export const createBooking = async (req: Request, res: Response) => {
         const bookingLicense = await BookingLicense.create({
           primaryGuest,
           booker:
-            bookerDetails?.type === "INDIVIDUAL"
+            bookerDetails.type !== "INDIVIDUAL"
               ? { customerDetails: bookerDetails._id }
               : { selfDetails: bookerDetails._id },
           hotel: propertyId,
@@ -77,8 +77,12 @@ export const createBooking = async (req: Request, res: Response) => {
             count: product.count,
           },
           dateRange: {
-            checkIn: moment(product.dateRange.checkIn, "DD-MM-YYYY").toDate(),
-            checkOut: moment(product.dateRange.checkOut, "DD-MM-YYYY").toDate(),
+            checkIn: moment(product.dateRange.checkIn, "DD-MM-YYYY")
+              .startOf("day")
+              .toDate(),
+            checkOut: moment(product.dateRange.checkOut, "DD-MM-YYYY")
+              .startOf("day")
+              .toDate(),
           },
           amount: {
             basePrice: product.amount.basePrice,

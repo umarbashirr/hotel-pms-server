@@ -11,8 +11,8 @@ interface IBookingLicense extends mongoose.Document {
     count: number;
   };
   dateRange: {
-    checkIn: any;
-    checkOut: any;
+    checkIn: Date;
+    checkOut: Date;
   };
   amount: {
     basePrice: number;
@@ -55,11 +55,11 @@ const bookingLicenseSchema = new mongoose.Schema<
     booker: {
       customerDetails: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "IndividualProfile",
+        ref: "CompanyProfile",
       },
       selfDetails: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "CompanyProfile",
+        ref: "IndividualProfile",
       },
     },
     hotel: { type: mongoose.Schema.Types.ObjectId, ref: "Hotel" },
@@ -73,8 +73,8 @@ const bookingLicenseSchema = new mongoose.Schema<
       count: { type: Number, required: true, default: 1 },
     },
     dateRange: {
-      checkIn: { type: String, required: true },
-      checkOut: { type: String, required: true },
+      checkIn: { type: Date, required: true },
+      checkOut: { type: Date, required: true },
     },
     amount: {
       basePrice: { type: Number },
@@ -89,8 +89,9 @@ const bookingLicenseSchema = new mongoose.Schema<
           "FULLFILLMENT_PENDING",
           "FULLFILLMENT_STARTED",
           "FULLFILLMENT_COMPLETED",
-          "FULLFILLMENT_COMPLETED",
+          "FULLFILLMENT_CANCELLED",
         ],
+        default: "FULLFILLMENT_PENDING",
       },
       room: { type: mongoose.Schema.Types.ObjectId, ref: "Room" },
       fullfilledBy: {

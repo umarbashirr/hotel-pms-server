@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import BookingLicense from "../models/booking-license.model";
 import moment from "moment";
+import { getLicensesByHotelAndDate } from "../helpers/licenseHelper";
 
 export const getLicenses = async (req: Request, res: Response) => {
   try {
@@ -28,19 +29,9 @@ export const getLicenses = async (req: Request, res: Response) => {
     }
 
     const from = moment(body.fromDate, "DD-MM-YYYY").startOf("day").toDate();
-    const to = moment(body.toDate, "DD-MM-YYYY").endOf("day").toDate();
+    const to = moment(body.toDate, "DD-MM-YYYY").startOf("day").toDate();
 
-    const licenses = await BookingLicense.find({
-      hotel: body.propertyId,
-      "dateRange.checkIn": { $gte: from },
-      "dateRange.checkOut": { $lte: to },
-    })
-      .populate("booker.customerDetails")
-      .populate("booker.selfDetails")
-      .populate("hotel")
-      .populate("product.category")
-      .populate("fullfillment.room")
-      .populate("fullfillment.fullfilledBy");
+    const licenses = await getLicensesByHotelAndDate(body.propertyId, to, from);
 
     return res.status(200).json({
       message: "Licenses fetched successfully",

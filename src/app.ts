@@ -37,6 +37,7 @@ import profileRoutes from "./routes/profile.routes";
 import companyProfileRoutes from "./routes/company-profile.routes";
 import bookingRoutes from "./routes/booking.routes";
 import licenseRoutes from "./routes/licenses.routes";
+import guestsRoutes from "./routes/guests.routes";
 
 //routes declaration
 app.use("/api/v1", healthCheckRoutes);
@@ -49,6 +50,7 @@ app.use("/api/v1/individual-profiles", profileRoutes);
 app.use("/api/v1/company-profiles", companyProfileRoutes);
 app.use("/api/v1/booking", bookingRoutes);
 app.use("/api/v1/licenses", licenseRoutes);
+app.use("/api/v1/guests", guestsRoutes);
 
 // http://localhost:8000/api/v1/users/register
 
